@@ -14,7 +14,7 @@ namespace Api.Utilities
             var isUrl = Uri.TryCreate(connectionStringUrl, UriKind.Absolute, out var url);
 
             var connectionUrl =
-                $"host={url.Host};username={url.UserInfo.Split(':')[0]};password={url.UserInfo.Split(':')[1]};database={url.LocalPath.Substring(1)};pooling=true;SslMode=Require;";
+                $"host={url.Host};username={url.UserInfo.Split(':')[0]};password={url.UserInfo.Split(':')[1]};database={url.LocalPath.Substring(1)};pooling=true;";
             
             return isUrl ? connectionUrl : string.Empty;
         }

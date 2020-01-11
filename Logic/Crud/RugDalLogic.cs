@@ -1,5 +1,4 @@
-﻿using System;
-using Dal.Interfaces;
+﻿using Dal.Interfaces;
 using Logic.Abstracts;
 using Logic.Interfaces;
 using Models.Models.Products;

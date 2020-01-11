@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Models.Enums;
 using Models.Interfaces;
-using  Models.Extensions;
 
 namespace Models.Models
 {
