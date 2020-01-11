@@ -5,7 +5,7 @@ using Models.Models.Products;
 
 namespace Dal.Crud
 {
-    public class RugDalDocumentDb : BasicDalDocumentDbAbstract<Rug>, IRugDal
+    public class RugDal : BasicDalDocumentDbAbstract<Rug>, IRugDal
     {
         private readonly DocumentStore _documentStore;
 
@@ -13,7 +13,7 @@ namespace Dal.Crud
         /// Constructor dependency injection
         /// </summary>
         /// <param name="documentStore"></param>
-        public RugDalDocumentDb(DocumentStore documentStore)
+        public RugDal(DocumentStore documentStore)
         {
             _documentStore = documentStore;
         }

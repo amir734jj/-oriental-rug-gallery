@@ -67,12 +67,6 @@ namespace Api
                 ConnectionStringUrlToResource(_configuration.GetValue<string>("DATABASE_URL")
                                               ?? throw new Exception("DATABASE_URL is null"));
 
-            NpgsqlConnection ResolveNpgsqlConnection() => new NpgsqlConnection
-            {
-                ConnectionString = postgresConnectionString,
-                // UserCertificateValidationCallback = (sender, certificate, chain, errors) => true
-            };
-
             services.AddOptions();
 
             services.AddLogging();
@@ -129,8 +123,7 @@ namespace Api
                 .AddHtmlMinification()
                 .AddHttpCompression();
 
-            services.AddDbContext<EntityDbContext>(opt => 
-                opt.UseSqlite("Data Source=database.sqlite;"));
+            services.AddDbContext<EntityDbContext>(opt => opt.UseNpgsql(postgresConnectionString));
 
             services.AddIdentity<User, IdentityRole<int>>(x => { x.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<EntityDbContext>()
@@ -169,9 +162,9 @@ namespace Api
                     // Important as PLV8 is disabled on Heroku
                     y.PLV8Enabled = false;
                     
-                    y.Connection(ResolveNpgsqlConnection);
+                    y.Connection(postgresConnectionString);
                     
-                    // y.AutoCreateSchemaObjects = AutoCreate.All;
+                    y.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                 }));
                 
                 // Register stuff in container, using the StructureMap APIs...
@@ -187,6 +180,8 @@ namespace Api
                 // Populate the container using the service collection
                 config.Populate(services);
             });
+            
+            _container.AssertConfigurationIsValid();
 
             return _container.GetInstance<IServiceProvider>();
         }

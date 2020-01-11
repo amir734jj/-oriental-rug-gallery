@@ -1,6 +1,6 @@
 namespace Models.Models.Products.Specifications
 {
-    public enum Color
+    public enum ColorEnum
     {
         Red, Blue
     }

@@ -1,6 +1,60 @@
+@using System.Drawing
+@using Models.Models.Products.Specifications
 @model IEnumerable<Models.Models.Products.Rug>
 
 @{
     ViewBag.Title = "Rugs index";
     Layout = "_Layout";
 }
+
+<div class="container">
+    <h2> Rug Inventory </h2>
+    <div class="row">
+        <div class="col-sm-10">
+            <p> Inventory of Available Rugs </p>
+        </div>
+        <div class="col-sm-2">
+            <a class="btn btn-primary pull-right" href="~/Rug/Add">
+                Add Rug
+            </a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <table class="table table-bordered clearfix">
+        <thead>
+        <tr>
+            <th> Id </th>
+            <th> Available </th>
+            <th> Color </th>
+            <th> Description </th>
+            <th> RugAge </th>
+            <th> RugCountryOfOrigin </th>
+            <th> RugPrice </th>
+            <th> RugType </th>
+            <th> RugDesign </th>
+            <th> Actions </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var rug in Model)
+        {
+            <tr>
+                <td> @(rug.Id) </td>
+                <td> @(rug.Available) </td>
+                <td> @(string.Join(',', rug.Color ?? Enumerable.Empty<ColorEnum>())) </td>
+                <td> @(rug.Description) </td>
+                <td> @(rug.RugAge) </td>
+                <td> @(rug.RugCountryOfOrigin) </td>
+                <td> @(rug.RugDesign) </td>
+                <td> @(rug.RugType) </td>
+                <td> @(rug.RugPrice.ToString("C")) </td>
+                <td>
+                    <a class="btn btn-info" href="~/Rug/Update/@(rug.Id)"> Modify </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

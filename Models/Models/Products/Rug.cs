@@ -12,8 +12,8 @@ namespace Models.Models.Products
         public int Id { get; set; }
         
         public string Description { get; set; }
-        
-        public Color[] Color { get; set; }
+
+        public ColorEnum[] Color { get; set; }
         
         public string RugNumber { get; set; }
         
@@ -32,7 +32,7 @@ namespace Models.Models.Products
         public bool Available { get; set; }
 
         /// <summary>
-        ///     This class is intented to be used as a document
+        ///     This class is intended to be used as a document
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>

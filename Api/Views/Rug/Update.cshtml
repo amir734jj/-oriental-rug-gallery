@@ -1,0 +1,17 @@
+@model Models.Models.Products.Rug
+
+@{
+    ViewBag.Title = "Rugs update";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2> Update a new Rug to Inventory </h2>
+    
+    @using (Html.BeginForm("UpdateHandler", "Rug", Model.Id, FormMethod.Post))
+    {
+        @Html.Partial("RugContent", Model, new ViewDataDictionary(ViewData) {{"Type", "Update"}})
+
+        <input class="btn btn-primary" type="submit" value="Update"/>
+    }
+</div>

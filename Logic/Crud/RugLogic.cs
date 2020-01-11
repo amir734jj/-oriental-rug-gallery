@@ -5,11 +5,11 @@ using Models.Models.Products;
 
 namespace Logic.Crud
 {
-    public class RugDalLogic : BasicLogicAbstract<Rug>, IRugLogic
+    public class RugLogic : BasicLogicAbstract<Rug>, IRugLogic
     {
         private readonly IRugDal _rugDal;
 
-        public RugDalLogic(IRugDal rugDal)
+        public RugLogic(IRugDal rugDal)
         {
             _rugDal = rugDal;
         }

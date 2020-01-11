@@ -1,4 +1,5 @@
 @using EnumsNET
+@using Models.Models.Products.Specifications
 @using Models.Models.Products.Specifications.Enums
 @model Models.Models.Products.Rug
 
@@ -18,6 +19,11 @@
 </div>
 
 <div class="form-group">
+    @Html.LabelFor(x => x.Color)
+    @Html.ListBoxFor(x => x.Color, Enums.GetNames<ColorEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
+</div>
+
+<div class="form-group">
     @Html.LabelFor(x => x.RugType)
     @Html.DropDownListFor(x => x.RugType, Enums.GetNames<RugTypeEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
 </div>
@@ -25,4 +31,9 @@
 <div class="form-group">
     @Html.LabelFor(x => x.RugCountryOfOrigin)
     @Html.DropDownListFor(x => x.RugCountryOfOrigin, Enums.GetNames<RugCountryEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.RugPrice)
+    @Html.TextBoxFor(x => x.RugPrice, new {@class = "form-control", type = "number", placeholder = "Enter price", required = "required"})
 </div>

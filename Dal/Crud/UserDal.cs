@@ -5,7 +5,7 @@ using Models.Models;
 
 namespace Dal.Crud
 {
-    public class UserDalRelational : BasicDalRelationalAbstract<User>, IUserDal
+    public class UserDal : BasicDalRelationalAbstract<User>, IUserDal
     {
         private readonly EntityDbContext _dbContext;
 
@@ -13,7 +13,7 @@ namespace Dal.Crud
         /// Constructor dependency injection
         /// </summary>
         /// <param name="dbContext"></param>
-        public UserDalRelational(EntityDbContext dbContext)
+        public UserDal(EntityDbContext dbContext)
         {
             _dbContext = dbContext;
         }
