@@ -60,5 +60,17 @@ namespace Api.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        [Route("Image/{id}")]
+        public async Task<IActionResult> Image([FromRoute] int id)
+        {
+            var rug = await _rugLogic.Get(id);
+
+            // Get images from rug
+            var images = rug.Images;
+            
+            return View(images);
+        }
     }
 }

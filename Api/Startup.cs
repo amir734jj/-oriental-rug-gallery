@@ -1,5 +1,9 @@
 using System;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
 using Dal;
+using Dal.Configs;
 using EFCache;
 using EFCache.Redis;
 using Marten;
@@ -26,7 +30,7 @@ using StackExchange.Redis;
 using StructureMap;
 using WebMarkupMin.AspNetCore2;
 using static Api.Utilities.ConnectionStringUtility;
-
+using Api.Extensions;
 
 namespace Api
 {
@@ -167,6 +171,22 @@ namespace Api
                     y.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                 }));
                 
+                var (accessKeyId, secretAccessKey, url) = (
+                    _configuration.GetRequiredValue<string>("CLOUDCUBE_ACCESS_KEY_ID"),
+                    _configuration.GetRequiredValue<string>("CLOUDCUBE_SECRET_ACCESS_KEY"),
+                    _configuration.GetRequiredValue<string>("CLOUDCUBE_URL")
+                );
+
+                var prefix = new Uri(url).Segments[1];
+                const string bucketName = "cloud-cube";
+
+                // Generally bad practice
+                var credentials = new BasicAWSCredentials(accessKeyId, secretAccessKey);
+
+                // Create S3 client
+                config.For<IAmazonS3>().Use(() => new AmazonS3Client(credentials, RegionEndpoint.USEast1));
+                config.For<S3ServiceConfig>().Use(new S3ServiceConfig(bucketName, prefix));
+
                 // Register stuff in container, using the StructureMap APIs...
                 config.Scan(_ =>
                 {

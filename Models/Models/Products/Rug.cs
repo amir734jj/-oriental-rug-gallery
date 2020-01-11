@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Models.Interfaces;
 using Models.Models.Products.Specifications;
@@ -13,7 +14,7 @@ namespace Models.Models.Products
         
         public string Description { get; set; }
 
-        public ColorEnum[] Color { get; set; }
+        public HashSet<ColorEnum> Color { get; set; } = new HashSet<ColorEnum>();
         
         public string RugNumber { get; set; }
         
@@ -30,6 +31,8 @@ namespace Models.Models.Products
         public RugAgeEnum RugAge { get; set; } 
         
         public bool Available { get; set; }
+
+        public HashSet<Guid> Images { get; set; } = new HashSet<Guid>();
 
         /// <summary>
         ///     This class is intended to be used as a document

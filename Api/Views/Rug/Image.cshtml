@@ -1,0 +1,13 @@
+@model HashSet<Guid>
+
+@{
+    ViewBag.Title = "Image management";
+    Layout = "_Layout";
+}
+
+<div class="container" ng-controller="imageManagementCtrl">
+    <form>
+        @* <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc"> *@
+        <input type="file" ng-file-select="onFileSelect($files)" multiple>
+    </form>
+</div>

@@ -1,5 +1,3 @@
-@using System.Drawing
-@using Models.Models.Products.Specifications
 @model IEnumerable<Models.Models.Products.Rug>
 
 @{
@@ -43,7 +41,7 @@
             <tr>
                 <td> @(rug.Id) </td>
                 <td> @(rug.Available) </td>
-                <td> @(string.Join(',', rug.Color ?? Enumerable.Empty<ColorEnum>())) </td>
+                <td> @(string.Join(',', rug.Color)) </td>
                 <td> @(rug.Description) </td>
                 <td> @(rug.RugAge) </td>
                 <td> @(rug.RugCountryOfOrigin) </td>
@@ -52,6 +50,7 @@
                 <td> @(rug.RugPrice.ToString("C")) </td>
                 <td>
                     <a class="btn btn-info" href="~/Rug/Update/@(rug.Id)"> Modify </a>
+                    <a class="btn btn-primary" href="~/Rug/Image/@(rug.Id)"> Images </a>
                 </td>
             </tr>
         }
