@@ -3,7 +3,7 @@ using Dal.Interfaces;
 using Marten;
 using Models.Models.Products;
 
-namespace Dal
+namespace Dal.Crud
 {
     public class RugDalDocumentDb : BasicDalDocumentDbAbstract<Rug>, IRugDal
     {

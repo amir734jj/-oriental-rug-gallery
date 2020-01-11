@@ -3,7 +3,7 @@ using Dal.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 
-namespace Dal
+namespace Dal.Crud
 {
     public class UserDalRelational : BasicDalRelationalAbstract<User>, IUserDal
     {

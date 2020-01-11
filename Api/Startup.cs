@@ -2,6 +2,7 @@ using System;
 using Dal;
 using EFCache;
 using EFCache.Redis;
+using Marten;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +24,7 @@ using reCAPTCHA.AspNetCore;
 using StackExchange.Redis;
 using StructureMap;
 using WebMarkupMin.AspNetCore2;
-using static API.Utilities.ConnectionStringUtility;
+using static Api.Utilities.ConnectionStringUtility;
 
 
 namespace Api
@@ -61,6 +62,10 @@ namespace Api
         /// <returns></returns>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            var postgresConnectionString =
+                ConnectionStringUrlToResource(_configuration.GetValue<string>("DATABASE_URL")
+                                              ?? throw new Exception("DATABASE_URL is null"));
+            
             services.AddOptions();
 
             services.AddLogging();
@@ -88,7 +93,7 @@ namespace Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Milwaukee-Internationals-API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "oriental-rug-gallery-API", Version = "v1"});
             });
 
             services.AddMvc(x =>
@@ -117,22 +122,7 @@ namespace Api
                 .AddHtmlMinification()
                 .AddHttpCompression();
 
-            services.AddDbContext<EntityDbContext>(opt =>
-            {
-                if (_env.IsDevelopment())
-                {
-                    opt.UseSqlite(_configuration.GetValue<string>("ConnectionStrings:Sqlite"));
-                }
-                else
-                {
-                    opt.UseNpgsql(
-                        ConnectionStringUrlToResource(_configuration.GetValue<string>("DATABASE_URL_V2"))
-                        ?? throw new Exception("DATABASE_URL is null"), _ =>
-                        {
-                            // Further customizations ...
-                        });
-                }
-            });
+            services.AddDbContext<EntityDbContext>(opt => opt.UseNpgsql(postgresConnectionString));
 
             services.AddIdentity<User, IdentityRole<int>>(x => { x.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<EntityDbContext>()
@@ -166,6 +156,14 @@ namespace Api
 
             _container = new Container(config =>
             {
+                config.For<DocumentStore>().Use(DocumentStore.For(y =>
+                {
+                    // Important as PLV8 is disabled on Heroku
+                    y.PLV8Enabled = false;
+
+                    y.Connection(postgresConnectionString);
+                }));
+                
                 // Register stuff in container, using the StructureMap APIs...
                 config.Scan(_ =>
                 {

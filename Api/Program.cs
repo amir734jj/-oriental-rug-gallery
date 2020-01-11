@@ -1,10 +1,9 @@
 using System.IO;
-using Api;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace API
+namespace Api
 {
     /// <summary>
     /// Main entry

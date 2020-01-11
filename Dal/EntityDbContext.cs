@@ -18,7 +18,8 @@ namespace Dal
         /// </summary>
         /// <param name="optionsBuilderOptions"></param>
         // ReSharper disable once SuggestBaseTypeForParameter
-        private EntityDbContext(DbContextOptions<EntityDbContext> optionsBuilderOptions) : base(optionsBuilderOptions)
+        // ReSharper disable once MemberCanBePrivate.Global
+        public EntityDbContext(DbContextOptions<EntityDbContext> optionsBuilderOptions) : base(optionsBuilderOptions)
         {
             Database.EnsureCreated();
         }

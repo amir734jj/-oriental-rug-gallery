@@ -97,7 +97,7 @@ namespace Dal.Abstracts
             {
                 // Copy the fields
                 updater(entity);
-                GetDbContext().SaveChanges();
+                await GetDbContext().SaveChangesAsync();
                 return entity;
             }
 

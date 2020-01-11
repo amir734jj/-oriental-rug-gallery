@@ -1,0 +1,28 @@
+@using EnumsNET
+@using Models.Models.Products.Specifications.Enums
+@model Models.Models.Products.Rug
+
+<div class="form-group">
+    @Html.LabelFor(x => x.Description)
+    @Html.TextBoxFor(x => x.Description, new {@class = "form-control", type = "text", placeholder = "Enter description", required = "required"})
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.RugAge)
+    @Html.DropDownListFor(x => x.RugAge, Enums.GetNames<RugAgeEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.RugDesign)
+    @Html.DropDownListFor(x => x.RugDesign, Enums.GetNames<RugDesignEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.RugType)
+    @Html.DropDownListFor(x => x.RugType, Enums.GetNames<RugTypeEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.RugCountryOfOrigin)
+    @Html.DropDownListFor(x => x.RugCountryOfOrigin, Enums.GetNames<RugCountryEnum>().Select(x => new SelectListItem {Text = x, Value = x}), new {@class = "form-control"})
+</div>

@@ -1,0 +1,13 @@
+@model Models.Models.Products.Rug
+
+@{
+    ViewBag.Title = "Rugs add";
+    Layout = "_Layout";
+}
+
+@using (Html.BeginForm("Add", "Rug", FormMethod.Post))
+{
+    @Html.Partial("RugContent", Model, new ViewDataDictionary(ViewData) {{ "Type", "Save"}})
+
+    <input class="btn btn-primary" type="submit" value="Add"/>
+}
