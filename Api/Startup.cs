@@ -20,6 +20,7 @@ using Models.Constants;
 using Models.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Npgsql;
 using reCAPTCHA.AspNetCore;
 using StackExchange.Redis;
 using StructureMap;
@@ -65,7 +66,13 @@ namespace Api
             var postgresConnectionString =
                 ConnectionStringUrlToResource(_configuration.GetValue<string>("DATABASE_URL")
                                               ?? throw new Exception("DATABASE_URL is null"));
-            
+
+            var npgsqlConnection = new NpgsqlConnection
+            {
+                ConnectionString = postgresConnectionString,
+                UserCertificateValidationCallback = (sender, certificate, chain, errors) => true
+            };
+
             services.AddOptions();
 
             services.AddLogging();
@@ -122,7 +129,7 @@ namespace Api
                 .AddHtmlMinification()
                 .AddHttpCompression();
 
-            services.AddDbContext<EntityDbContext>(opt => opt.UseNpgsql(postgresConnectionString));
+            services.AddDbContext<EntityDbContext>(opt => opt.UseNpgsql(npgsqlConnection));
 
             services.AddIdentity<User, IdentityRole<int>>(x => { x.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<EntityDbContext>()
@@ -160,8 +167,10 @@ namespace Api
                 {
                     // Important as PLV8 is disabled on Heroku
                     y.PLV8Enabled = false;
-
-                    y.Connection(postgresConnectionString);
+                    
+                    y.Connection(() => npgsqlConnection);
+                    
+                    y.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                 }));
                 
                 // Register stuff in container, using the StructureMap APIs...
