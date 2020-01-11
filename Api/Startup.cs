@@ -129,7 +129,8 @@ namespace Api
                 .AddHtmlMinification()
                 .AddHttpCompression();
 
-            services.AddDbContext<EntityDbContext>(opt => opt.UseNpgsql(ResolveNpgsqlConnection()));
+            services.AddDbContext<EntityDbContext>(opt => 
+                opt.UseSqlite("Data Source=database.sqlite;"));
 
             services.AddIdentity<User, IdentityRole<int>>(x => { x.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<EntityDbContext>()
@@ -156,7 +157,7 @@ namespace Api
             {
                 x.Cookie.MaxAge = TimeSpan.FromMinutes(60);
             });
-            
+
             // Re-Captcha config
             services.Configure<RecaptchaSettings>(_configuration.GetSection("RecaptchaSettings"));
             services.AddTransient<IRecaptchaService, RecaptchaService>();
@@ -186,8 +187,6 @@ namespace Api
                 // Populate the container using the service collection
                 config.Populate(services);
             });
-
-            _container.AssertConfigurationIsValid();
 
             return _container.GetInstance<IServiceProvider>();
         }

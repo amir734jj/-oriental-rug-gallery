@@ -3,7 +3,7 @@ using Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models.Products;
 
-namespace Api.Controllers.Abstracts
+namespace Api.Controllers
 {
     public class RugController : Controller
     {
