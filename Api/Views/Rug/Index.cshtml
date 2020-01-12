@@ -1,3 +1,4 @@
+@using System.Globalization
 @model IEnumerable<Models.Models.Products.Rug>
 
 @{
@@ -47,7 +48,7 @@
                 <td> @(rug.RugCountryOfOrigin) </td>
                 <td> @(rug.RugDesign) </td>
                 <td> @(rug.RugType) </td>
-                <td> @(rug.RugPrice.ToString("C")) </td>
+                <td> @(rug.RugPrice.ToString("C", new CultureInfo("en-US"))) </td>
                 <td>
                     <a class="btn btn-warning" href="~/Rug/Update/@(rug.Id)"> Modify </a>
                     <a class="btn btn-primary" href="~/Rug/Image/@(rug.Id)"> Images </a>
