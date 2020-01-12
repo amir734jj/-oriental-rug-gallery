@@ -14,5 +14,7 @@ namespace Logic.Interfaces
         Task<string> Url(Guid id);
         
         Task<List<Guid>> List();
+
+        Task Delete(Guid id);
     }
 }

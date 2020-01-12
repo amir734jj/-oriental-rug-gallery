@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
@@ -31,6 +33,7 @@ using StructureMap;
 using WebMarkupMin.AspNetCore2;
 using static Api.Utilities.ConnectionStringUtility;
 using Api.Extensions;
+using Logic.Interfaces;
 
 namespace Api
 {

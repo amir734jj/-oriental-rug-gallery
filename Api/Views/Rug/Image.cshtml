@@ -14,17 +14,29 @@
         Drop images here or click to upload
     </div>
     <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-    Files:
-    <ul>
-        <li ng-repeat="f in files">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
-    </ul>
+
+    <div ng-if="files.length">
+        Files:
+        <ul>
+            <li ng-repeat="f in files">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
+        </ul>
+    </div>
 
     <div ng-if="log">
         Upload Log:
         <pre>{{log}}</pre>
     </div>
-    
-    <img ng-repeat="url in urls" ng-src="{{url}}" alt="Description for {{ url}} "/>
+
+    <div class="row">
+        <div class="col-md-4" ng-repeat="image in images">
+            <div class="thumbnail">
+                <img ng-src="{{ image.url }}" alt="Description for {{ image.key }}"/>
+                <div class="caption">
+                    <button class="btn btn-danger" ng-click="deleteImage( image.key )">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 

@@ -12,7 +12,7 @@
             <p> Inventory of Available Rugs </p>
         </div>
         <div class="col-sm-2">
-            <a class="btn btn-primary pull-right" href="~/Rug/Add">
+            <a class="btn btn-default pull-right" href="~/Rug/Add">
                 Add Rug
             </a>
         </div>
@@ -49,7 +49,7 @@
                 <td> @(rug.RugType) </td>
                 <td> @(rug.RugPrice.ToString("C")) </td>
                 <td>
-                    <a class="btn btn-info" href="~/Rug/Update/@(rug.Id)"> Modify </a>
+                    <a class="btn btn-warning" href="~/Rug/Update/@(rug.Id)"> Modify </a>
                     <a class="btn btn-primary" href="~/Rug/Image/@(rug.Id)"> Images </a>
                 </td>
             </tr>

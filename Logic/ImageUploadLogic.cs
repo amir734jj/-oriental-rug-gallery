@@ -39,5 +39,10 @@ namespace Logic
         {
             return _s3Service.List();
         }
+        
+        public async Task Delete(Guid id)
+        {
+            await _s3Service.Delete(id);
+        }
     }
 }

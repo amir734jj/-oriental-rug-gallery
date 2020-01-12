@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -92,7 +93,18 @@ namespace Api.Controllers
 
             await _rugLogic.AssignImage(id, imageId);
 
-            return Ok($"Successfully assigned image `{file.Name}` to rug id: {id}");
+            return Ok($"Successfully assigned image `{file.FileName}` to rug id: {id}");
+        }
+
+        [HttpDelete]
+        [Route("Image/{id}/delete/{imageId}")]
+        public async Task<IActionResult> ImageDelete([FromRoute] int id, Guid imageId)
+        {
+            await _imageUploadLogic.Delete(imageId);
+
+            await _rugLogic.UnAssignImage(id, imageId);
+
+            return Ok($"Successfully assigned image `{imageId}` from rug id: {id}");
         }
     }
 }

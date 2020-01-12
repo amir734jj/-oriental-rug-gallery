@@ -85,6 +85,27 @@ namespace Dal.Services.S3
             }
         }
 
+        public async Task<SimpleS3Response> Delete(Guid keyName)
+        {
+            try
+            {
+                await _client.DeleteObjectAsync(new DeleteObjectRequest
+                {
+                    Key = $"{_s3ServiceConfig.Prefix}/{keyName}",
+                    BucketName = _s3ServiceConfig.BucketName,
+                });
+
+                return new SimpleS3Response(HttpStatusCode.OK, $"Successfully deleted {keyName}");
+            }            
+            // Catch other errors
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                
+                return new SimpleS3Response(HttpStatusCode.BadRequest, e.Message);
+            }
+        }
+
         /// <summary>
         /// Get a file from S3
         /// </summary>
