@@ -1,4 +1,4 @@
-@model HashSet<Guid>
+@model Models.Models.Products.Rug
 
 @{
     ViewBag.Title = "Image management";
@@ -6,8 +6,28 @@
 }
 
 <div class="container" ng-controller="imageManagementCtrl">
-    <form>
-        @* <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc"> *@
-        <input type="file" ng-file-select="onFileSelect($files)" multiple>
-    </form>
+    Drop File:
+    <div ngf-drop ngf-select ng-model="files" class="drop-box"
+         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+         accept="image/*"
+         ngf-pattern="'image/*'">
+        Drop images here or click to upload
+    </div>
+    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+    Files:
+    <ul>
+        <li ng-repeat="f in files">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
+    </ul>
+
+    <div ng-if="log">
+        Upload Log:
+        <pre>{{log}}</pre>
+    </div>
+    
+    <img ng-repeat="url in urls" ng-src="{{url}}" alt="Description for {{ url}} "/>
+
 </div>
+
+<script>
+    window.id = "@(Model.Id)";
+</script>

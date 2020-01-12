@@ -1,76 +1,52 @@
-angular.module('orientalRugGalleryApp', [])
-    .directive("ngFileSelect", function (fileReader, $timeout) {
-        return {
-            scope: {
-                ngModel: '='
-            },
-            link: function ($scope, el) {
-                function getFile(file) {
-                    fileReader.readAsDataUrl(file, $scope)
-                        .then(function (result) {
-                            $timeout(function () {
-                                $scope.ngModel = result;
-                            });
-                        });
-                }
+angular.module('orientalRugGalleryApp', ["ngFileUpload"])
+    .controller('imageManagementCtrl', ['$scope', 'Upload', '$timeout', "$window", "$http", function ($scope, Upload, $timeout, $window, $http) {
+        $scope.urls = [];
 
-                el.bind("change", function (e) {
-                    var file = (e.srcElement || e.target).files[0];
-                    getFile(file);
+        $scope.resolveImages = function() {
+            $http.get("/api/rug/" + $window.id).then(function (response) {
+                var rug = response.data;
+                rug.images.forEach(function (imageId) {
+                    $http.get("/api/image/" + imageId + "/url", {
+                        'Content-Type': "text/plain"
+                    }).then(function (response) {
+                        $scope.urls.push(response.data);
+                    });
                 });
+            });
+        };
+
+        $scope.resolveImages();
+        
+        $scope.$watch('files', function () {
+            $scope.upload($scope.files);
+        });
+        $scope.$watch('file', function () {
+            if ($scope.file != null) {
+                $scope.files = [$scope.file];
+            }
+        });
+        $scope.log = '';
+
+        $scope.upload = function (files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!file.$error) {
+                        Upload.upload({
+                            url: "/rug/image/" + $window.id + "/upload",
+                            data: {
+                                file: file
+                            }
+                        }).then(function (resp) {
+                            $timeout(function () {
+                                $scope.log = 'file: ' + resp.config.data.file.name + ', Response: ' + JSON.stringify(resp.data) +  '\n' + $scope.log;
+                            });
+                        }, null, function (evt) {
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope.log = 'progress: ' + progressPercentage + '% ' + evt.config.data.file.name + '\n' + $scope.log;
+                        });
+                    }
+                }
             }
         };
-    })
-    .controller('imageManagementCtrl', ["$scope", "$http", "$timeout", function ($scope, $http, $timeout) {
-        $scope.imageSrc = "";
-
-        $scope.$on("fileProgress", function (e, progress) {
-            $scope.progress = progress.loaded / progress.total;
-        });
-    }]).factory("fileReader", ["$q", "$log", function ($q, $log) {
-        var onLoad = function (reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    deferred.resolve(reader.result);
-                });
-            };
-        };
-    
-        var onError = function (reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    deferred.reject(reader.result);
-                });
-            };
-        };
-    
-        var onProgress = function (reader, scope) {
-            return function (event) {
-                scope.$broadcast("fileProgress", {
-                    total: event.total,
-                    loaded: event.loaded
-                });
-            };
-        };
-    
-        var getReader = function (deferred, scope) {
-            var reader = new FileReader();
-            reader.onload = onLoad(reader, deferred, scope);
-            reader.onerror = onError(reader, deferred, scope);
-            reader.onprogress = onProgress(reader, scope);
-            return reader;
-        };
-    
-        var readAsDataURL = function (file, scope) {
-            var deferred = $q.defer();
-    
-            var reader = getReader(deferred, scope);
-            reader.readAsDataURL(file);
-    
-            return deferred.promise;
-        };
-    
-        return {
-            readAsDataUrl: readAsDataURL
-        };
-}]);
+    }]);

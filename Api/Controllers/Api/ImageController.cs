@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Constants;
 
-namespace Api.Controllers
+namespace Api.Controllers.Api
 {
     [Authorize]
     [ApiController]

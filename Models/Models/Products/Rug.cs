@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Models.Enums;
 using Models.Interfaces;
 using Models.Models.Products.Specifications;
 using Models.Models.Products.Specifications.Enums;
@@ -33,6 +34,8 @@ namespace Models.Models.Products
         public bool Available { get; set; }
 
         public HashSet<Guid> Images { get; set; } = new HashSet<Guid>();
+
+        public ProductTypeEnum ProductTypeType = ProductTypeEnum.Rug;
 
         /// <summary>
         ///     This class is intended to be used as a document

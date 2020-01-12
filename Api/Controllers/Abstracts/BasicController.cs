@@ -18,7 +18,7 @@ namespace Api.Controllers.Abstracts
         [ProducesResponseType(typeof(IEnumerable), 200)]
         public virtual async Task<IActionResult> GetAll()
         {
-            return Ok(BasicLogic().GetAll());
+            return Ok(await BasicLogic().GetAll());
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace Api.Controllers.Abstracts
         [SwaggerOperation("Get")]
         public virtual async Task<IActionResult> Get([FromRoute] int id)
         {
-            return Ok(BasicLogic().Get(id));
+            return Ok(await BasicLogic().Get(id));
         }
 
         [HttpPut]
@@ -34,7 +34,7 @@ namespace Api.Controllers.Abstracts
         [SwaggerOperation("Update")]
         public virtual async Task<IActionResult> Update([FromRoute] int id, [FromBody] T instance)
         {
-            return Ok(BasicLogic().Update(id, instance));
+            return Ok(await BasicLogic().Update(id, instance));
         }
 
         [HttpDelete]
@@ -42,7 +42,7 @@ namespace Api.Controllers.Abstracts
         [SwaggerOperation("Delete")]
         public virtual async Task<IActionResult> Delete([FromRoute] int id)
         {
-            return Ok(BasicLogic().Delete(id));
+            return Ok(await BasicLogic().Delete(id));
         }
         
         [HttpPost]
@@ -50,7 +50,7 @@ namespace Api.Controllers.Abstracts
         [SwaggerOperation("Save")]
         public virtual async Task<IActionResult> Save([FromBody] T instance)
         {
-            return Ok(BasicLogic().Save(instance));
+            return Ok(await BasicLogic().Save(instance));
         }
     }
 }

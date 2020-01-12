@@ -1,7 +1,13 @@
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Api.Extensions;
+using Api.Middlewares.FileUpload;
 using Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models.Enums;
 using Models.Models.Products;
 
 namespace Api.Controllers
@@ -13,9 +19,12 @@ namespace Api.Controllers
     {
         private readonly IRugLogic _rugLogic;
 
-        public RugController(IRugLogic rugLogic)
+        private readonly IImageUploadLogic _imageUploadLogic;
+
+        public RugController(IRugLogic rugLogic, IImageUploadLogic imageUploadLogic)
         {
             _rugLogic = rugLogic;
+            _imageUploadLogic = imageUploadLogic;
         }
         
         [HttpGet]
@@ -67,10 +76,23 @@ namespace Api.Controllers
         {
             var rug = await _rugLogic.Get(id);
 
-            // Get images from rug
-            var images = rug.Images;
-            
-            return View(images);
+            return View(rug);
+        }
+        
+        [FileUpload]
+        [HttpPost]
+        [Route("Image/{id}/upload")]
+        public async Task<IActionResult> ImageUpload([FromRoute] int id, [FromForm] IFormFile file)
+        {
+            var imageId = await _imageUploadLogic.Upload(await file.ToByteArray(), new Dictionary<string, string>
+            {
+                ["ProductType"] = ProductTypeEnum.Rug.ToString(),
+                ["ProductId"] = id.ToString()
+            });
+
+            await _rugLogic.AssignImage(id, imageId);
+
+            return Ok($"Successfully assigned image `{file.Name}` to rug id: {id}");
         }
     }
 }
