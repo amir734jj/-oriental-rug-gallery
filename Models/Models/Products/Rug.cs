@@ -33,7 +33,7 @@ namespace Models.Models.Products
         
         public bool Available { get; set; }
 
-        public HashSet<Guid> Images { get; set; } = new HashSet<Guid>();
+        public List<Guid> Images { get; set; } = new List<Guid>();
 
         public ProductTypeEnum ProductTypeType = ProductTypeEnum.Rug;
 

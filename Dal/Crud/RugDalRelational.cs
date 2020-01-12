@@ -1,4 +1,5 @@
-﻿using Dal.Abstracts;
+﻿using System.Linq;
+using Dal.Abstracts;
 using Dal.Interfaces;
 using Marten;
 using Models.Models.Products;
