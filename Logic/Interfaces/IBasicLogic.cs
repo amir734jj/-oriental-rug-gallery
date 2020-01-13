@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Models.Interfaces;
 
@@ -15,5 +16,7 @@ namespace Logic.Interfaces
         Task<T> Delete(int id);
 
         Task<T> Update(int id, T dto);
+        
+        Task<T> Update(int id, Action<T> dto);
     }
 }

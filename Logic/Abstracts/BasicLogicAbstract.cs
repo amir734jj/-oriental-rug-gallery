@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dal.Interfaces;
 using Logic.Interfaces;
@@ -60,6 +61,11 @@ namespace Logic.Abstracts
         /// <param name="dto"></param>
         /// <returns></returns>
         public virtual Task<T> Update(int id, T dto)
+        {
+            return GetBasicCrudDal().Update(id, dto);
+        }
+
+        public Task<T> Update(int id, Action<T> dto)
         {
             return GetBasicCrudDal().Update(id, dto);
         }

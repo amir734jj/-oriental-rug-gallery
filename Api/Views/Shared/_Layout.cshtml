@@ -62,6 +62,10 @@
                 
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li class="@(ViewContext.RouteData.Matches("User") ? "active" : "")">
+                        <a href="/User">User</a>
+                    </li>
+                    
                     <li class="@(ViewContext.RouteData.Matches("Rug") ? "active" : "")">
                         <a href="/Rug">Rug</a>
                     </li>
