@@ -6,12 +6,15 @@
 }
 
 <div class="container">
-    <h2> Add a new Rug to Inventory </h2>
-    
+
+    <div class="page-header">
+        <h3> Add a new Rug to Inventory </h3>
+    </div>
+
     @using (Html.BeginForm("AddHandler", "Rug", FormMethod.Post))
     {
         @Html.Partial("RugContent", Model, new ViewDataDictionary(ViewData) {{"Type", "Save"}})
 
-        <input class="btn btn-primary" type="submit" value="Add"/>
+        <input class="btn btn-primary" type="submit" value="Save"/>
     }
 </div>
