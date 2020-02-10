@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using Api.Extensions;
 using Api.Middlewares.FileUpload;
 using Logic.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Enums;
@@ -14,7 +12,6 @@ using Models.Models.Products;
 namespace Api.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [AllowAnonymous]
     [Route("[controller]")]
     public class RugController : Controller
     {
