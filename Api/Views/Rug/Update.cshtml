@@ -6,8 +6,10 @@
 }
 
 <div class="container">
-    <h2> Update a new Rug to Inventory </h2>
-    
+    <div class="page-header">
+        <h3> Update a new Rug to Inventory </h3>
+    </div>
+
     @using (Html.BeginForm("UpdateHandler", "Rug", Model.Id, FormMethod.Post))
     {
         @Html.Partial("RugContent", Model, new ViewDataDictionary(ViewData) {{"Type", "Update"}})

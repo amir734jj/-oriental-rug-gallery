@@ -25,3 +25,7 @@ span.pre {
 .dragover {
     border: 5px dashed blue;
 }
+
+.container {
+    margin-bottom: 5rem;
+}
