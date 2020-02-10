@@ -180,7 +180,7 @@ namespace Api
                     _configuration.GetRequiredValue<string>("CLOUDCUBE_URL")
                 );
 
-                var prefix = new Uri(url).Segments[1];
+                var prefix = new Uri(url).Segments.Skip(1).FirstOrDefault() ?? throw new Exception("S3 url is malformed");
                 const string bucketName = "cloud-cube";
 
                 // Generally bad practice
