@@ -59,19 +59,20 @@ namespace Api.Controllers.Abstracts
         public async Task<bool> Login(LoginViewModel loginViewModel)
         {
             // Ensure the username and password is valid.
-            var result = await ResolveUserManager().FindByNameAsync(loginViewModel.Username);
+            var user = await ResolveUserManager().FindByNameAsync(loginViewModel.Username);
 
-            if (result == null || !await ResolveUserManager().CheckPasswordAsync(result, loginViewModel.Password))
+            if (user == null || !await ResolveUserManager().CheckPasswordAsync(user, loginViewModel.Password))
             {
                 return false;
             }
 
-            await ResolveSignInManager().SignInAsync(result, true);
+            await ResolveSignInManager().SignInAsync(user, true);
 
             // Generate and issue a JWT token
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, result.Email)
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var identity = new ClaimsIdentity(
