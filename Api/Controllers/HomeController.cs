@@ -17,12 +17,7 @@ namespace Api.Controllers
         [Route("")]
         public async Task<IActionResult> Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return View();
-            }
-
-            return RedirectToAction("About");
+            return View();
         }
         
         /// <summary>
